@@ -2,7 +2,7 @@
 
 ## Approach
 
-I chose the timing rules because they are important to the producer's decisions and can be checked quickly and consistently. These two tests cover floated items, total duration, over/under, back-times, valid duration limits, and keeping the previous value after invalid input.
+I chose the timing rules because they are important to the producer's decisions and can be checked quickly and consistently. These three tests cover floated items, total duration, over/under, back-times, valid duration limits, and keeping the previous value after invalid input.
 
 ## What I did not automate
 
