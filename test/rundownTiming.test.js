@@ -21,11 +21,28 @@ test("rundown timing excludes floated items and calculates back-times", () => {
 test("duration input accepts the limit and keeps the previous value when invalid", () => {
   assert.equal(parseDuration("1:30"), 90);
   assert.equal(parseDuration("59:59"), 59 * 60 + 59);
+
   const invalidMinutes = applyDurationInput(90, "90");
   assert.equal(invalidMinutes.accepted, false);
   assert.equal(invalidMinutes.valueSeconds, 90);
   assert.match(invalidMinutes.error, /mm:ss/);
+  
   const tooLong = applyDurationInput(90, "60:00");
   assert.equal(tooLong.accepted, false);
   assert.equal(tooLong.valueSeconds, 90);
+});
+
+test("marks the rundown red when it runs 45 seconds past the hard out", () => {
+  const result = calculateRundown(
+    [
+      { id: "intro", durationSeconds: 10 * 60, floated: false },
+      { id: "main-story", durationSeconds: 20 * 60 + 45, floated: false },
+    ],
+    "18:00:00",
+    "18:30:00",
+  );
+
+  assert.equal(result.totalPlannedSeconds, 30 * 60 + 45);
+  assert.equal(result.overUnderSeconds, -45);
+  assert.equal(result.overUnderColor, "red");
 });
